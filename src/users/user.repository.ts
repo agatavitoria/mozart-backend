@@ -13,4 +13,21 @@ export class UserRepository {
       where: userWhereUniqueInput,
     });
   }
+
+  async getAll(params: {
+    skip?: number;
+    take?: number;
+    cursor?: Prisma.UserWhereUniqueInput;
+    where?: Prisma.UserWhereInput;
+    orderBy?: Prisma.UserOrderByWithRelationInput;
+  }): Promise<UserModel[]> {
+    const { skip, take, cursor, where, orderBy } = params;
+    return this.prismaService.user.findMany({
+      skip,
+      take,
+      cursor,
+      where,
+      orderBy,
+    });
+  }
 }
