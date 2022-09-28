@@ -14,7 +14,7 @@ export class UserRepository {
     });
   }
 
-  async getAll(params: {
+  getAll(params: {
     skip?: number;
     take?: number;
     cursor?: Prisma.UserWhereUniqueInput;
@@ -28,6 +28,29 @@ export class UserRepository {
       cursor,
       where,
       orderBy,
+    });
+  }
+
+  createUser(data: Prisma.UserCreateInput): Promise<UserModel> {
+    return this.prismaService.user.create({
+      data,
+    });
+  }
+
+  updateUser(params: {
+    where: Prisma.UserWhereUniqueInput;
+    data: Prisma.UserUpdateInput;
+  }): Promise<UserModel> {
+    const { where, data } = params;
+    return this.prismaService.user.update({
+      data,
+      where,
+    });
+  }
+
+  deleteUser(id: string): Prisma.Prisma__UserClient<UserModel> {
+    return this.prismaService.user.delete({
+      where: { id },
     });
   }
 }
