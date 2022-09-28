@@ -14,11 +14,13 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
+    "test": "jest --maxWorkers=1 --detectOpenHandles",
+    "test:watch": "jest --watch --detectOpenHandles",
+    "test:staged": "yarn test --bail --findRelatedTests --passWithNoTests",
+    "test:ci": "jest --coverage --detectOpenHandles",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:e2e": "jest --config ./test/jest-e2e.json --detectOpenHandles",
+    "jest:clear": "jest --clearCache",
     "prisma": "prisma",
     "prisma:studio": "prisma studio",
     "prisma:generate": "prisma generate --schema=./prisma/schema.prisma",
@@ -38,7 +40,7 @@
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
-    "@nestjs/testing": "^9.0.0",
+    "@nestjs/testing": "^9.1.2",
     "@types/express": "^4.17.13",
     "@types/jest": "28.1.8",
     "@types/node": "^16.0.0",
@@ -70,10 +72,21 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
+    "collectCoverage": true,
+    "maxConcurrency": 1,
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "**/*.ts",
+      "!**/*.d.ts",
+      "!<rootDir>/*.ts",
+      "!<rootDir>/**/index.ts",
+      "!<rootDir>/**/*.module.ts",
+      "!<rootDir>/config/**/*",
+      "!<rootDir>/common/**/*"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "~/(.*)": "<rootDir>/$1"
+    }
   }
 }
