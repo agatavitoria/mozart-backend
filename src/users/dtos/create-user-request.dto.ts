@@ -42,5 +42,5 @@ export class CreateUserRequestDTO {
   @Expose({ name: 'profile_name' })
   @IsString()
   @IsOptional()
-  profileName: string;
+  profileName?: string;
 }

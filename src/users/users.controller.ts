@@ -5,10 +5,11 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { BadRequestDto, UnauthorizedRequestDto } from 'src/common/dtos';
-import { CreateUserRequestDTO } from 'src/users/dtos';
-import { UserResponseDTO } from 'src/users/dtos/user-response.dto';
-import { UsersService } from 'src/users/users.service';
+
+import { BadRequestDto, UnauthorizedRequestDto } from '../common/dtos';
+import { CreateUserRequestDTO } from './dtos';
+import { UserResponseDTO } from './dtos/user-response.dto';
+import { UsersService } from './users.service';
 
 @ApiTags('Users')
 @Controller('users')
@@ -26,7 +27,6 @@ export class UsersController {
       const newUser = await this.service.create(userData);
       return UserResponseDTO.factory(newUser);
     } catch (err) {
-      console.log(err);
       throw new BadRequestException();
     }
   }

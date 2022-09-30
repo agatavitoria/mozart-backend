@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { User as UserModel } from '@prisma/client';
-import { removeAllUndefinedAttrs, snakeKeys } from 'src/common/utils';
+import { removeAllUndefinedAttrs, snakeKeys } from '../../common/utils';
 
 export class UserResponseDTO {
   @ApiProperty({
