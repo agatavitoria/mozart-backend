@@ -36,7 +36,7 @@ describe('UserRepository', () => {
 
   it('should call getUser and return an object', async () => {
     prismaService.user.findUnique = jest.fn().mockReturnValueOnce({});
-    const response = await userRepository.getUser({ id: 'uuid' });
+    const response = await userRepository.get({ id: 'uuid' });
 
     expect(response).toEqual({});
     expect(prismaService.user.findUnique).toHaveBeenCalledTimes(1);
@@ -54,7 +54,7 @@ describe('UserRepository', () => {
 
   it('should call create and return empty object', async () => {
     prismaService.user.create = jest.fn().mockReturnValueOnce({});
-    const response = await userRepository.createUser({} as any);
+    const response = await userRepository.create({} as any);
 
     expect(response).toEqual({});
     expect(prismaService.user.findMany).toHaveBeenCalledTimes(1);
@@ -68,7 +68,7 @@ describe('UserRepository', () => {
     };
 
     prismaService.user.update = jest.fn().mockReturnValueOnce({});
-    const response = await userRepository.updateUser(mockedValues);
+    const response = await userRepository.update(mockedValues);
 
     expect(response).toBeTruthy();
     expect(prismaService.user.update).toHaveBeenCalledTimes(1);
@@ -77,7 +77,7 @@ describe('UserRepository', () => {
 
   it('should call delete and return empty object', async () => {
     prismaService.user.delete = jest.fn().mockReturnValueOnce({});
-    const response = await userRepository.deleteUser('uuid');
+    const response = await userRepository.delete('uuid');
 
     expect(response).toBeTruthy();
     expect(prismaService.user.delete).toHaveBeenCalledTimes(1);
