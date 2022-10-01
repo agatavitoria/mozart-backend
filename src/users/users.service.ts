@@ -33,4 +33,8 @@ export class UsersService {
       id: userId,
     });
   }
+
+  async findAll() {
+    return this.repository.getAll({});
+  }
 }

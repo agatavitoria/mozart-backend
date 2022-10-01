@@ -12,10 +12,12 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-
 import { BadRequestDto, UnauthorizedRequestDto } from '../common/dtos';
-import { CreateUserRequestDTO } from './dtos';
-import { UserResponseDTO } from './dtos/user-response.dto';
+import {
+  CreateUserRequestDTO,
+  GetAllUsersResponseDTO,
+  UserResponseDTO,
+} from './dtos';
 import { UsersService } from './users.service';
 
 @ApiTags('Users')
@@ -46,6 +48,19 @@ export class UsersController {
     try {
       const user = await this.service.findOne(userId);
       return UserResponseDTO.factory(user);
+    } catch (err) {
+      throw new BadRequestException();
+    }
+  }
+
+  @ApiOkResponse({ type: GetAllUsersResponseDTO })
+  @ApiUnauthorizedResponse({ type: UnauthorizedRequestDto })
+  @ApiBadRequestResponse({ type: BadRequestDto })
+  @Get()
+  async gelAll() {
+    try {
+      const users = await this.service.findAll();
+      return GetAllUsersResponseDTO.factory(users);
     } catch (err) {
       throw new BadRequestException();
     }
