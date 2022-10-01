@@ -16,6 +16,7 @@ describe('UsersService', () => {
           useValue: {
             create: jest.fn(),
             get: jest.fn(),
+            getAll: jest.fn(),
           },
         },
         UsersService,
@@ -76,6 +77,21 @@ describe('UsersService', () => {
       await service.findOne(uuid);
       expect(userRepository.get).toHaveBeenCalledTimes(1);
       expect(userRepository.get).toHaveReturnedTimes(1);
+    });
+  });
+
+  describe('findAll', () => {
+    it('should return list', async () => {
+      userRepository.getAll = jest.fn().mockReturnValueOnce([]);
+      const response = await service.findAll();
+      expect(response).toEqual([]);
+    });
+
+    it('should call one time', async () => {
+      userRepository.getAll = jest.fn().mockReturnValueOnce([]);
+      await service.findAll();
+      expect(userRepository.getAll).toHaveBeenCalledTimes(1);
+      expect(userRepository.getAll).toHaveReturnedTimes(1);
     });
   });
 });
