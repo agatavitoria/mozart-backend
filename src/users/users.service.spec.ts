@@ -15,6 +15,7 @@ describe('UsersService', () => {
           provide: UserRepository,
           useValue: {
             create: jest.fn(),
+            get: jest.fn(),
           },
         },
         UsersService,
@@ -53,6 +54,28 @@ describe('UsersService', () => {
       await service.create(userParams);
       expect(userRepository.create).toHaveBeenCalledTimes(1);
       expect(userRepository.create).toHaveReturnedTimes(1);
+    });
+  });
+
+  describe('findOne', () => {
+    it('should return an error if no pass userId', async () => {
+      const promise = service.findOne(null as any);
+      await expect(promise).rejects.toThrow(UnexpectedError);
+    });
+
+    it('should return object', async () => {
+      const uuid = faker.datatype.uuid();
+      userRepository.get = jest.fn().mockReturnValueOnce({});
+      const response = await service.findOne(uuid);
+      expect(response).toEqual({});
+    });
+
+    it('should call one time', async () => {
+      const uuid = faker.datatype.uuid();
+      userRepository.get = jest.fn().mockReturnValueOnce({});
+      await service.findOne(uuid);
+      expect(userRepository.get).toHaveBeenCalledTimes(1);
+      expect(userRepository.get).toHaveReturnedTimes(1);
     });
   });
 });

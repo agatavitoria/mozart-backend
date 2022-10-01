@@ -17,7 +17,7 @@ export class UserResponseDTO {
   })
   data: any;
 
-  static factory(data: UserModel) {
+  static factory(data: UserModel | null) {
     const userData = {
       ...data,
       createdAt: undefined,

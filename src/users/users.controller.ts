@@ -1,4 +1,11 @@
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiOkResponse,
@@ -26,6 +33,19 @@ export class UsersController {
     try {
       const newUser = await this.service.create(userData);
       return UserResponseDTO.factory(newUser);
+    } catch (err) {
+      throw new BadRequestException();
+    }
+  }
+
+  @ApiOkResponse({ type: UserResponseDTO })
+  @ApiUnauthorizedResponse({ type: UnauthorizedRequestDto })
+  @ApiBadRequestResponse({ type: BadRequestDto })
+  @Get(':userId')
+  async getUser(@Param('userId') userId: string) {
+    try {
+      const user = await this.service.findOne(userId);
+      return UserResponseDTO.factory(user);
     } catch (err) {
       throw new BadRequestException();
     }

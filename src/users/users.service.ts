@@ -16,11 +16,21 @@ export class UsersService {
       throw new UnexpectedError('Has no pass required params');
     }
 
-    return this.repository.create({
+    return await this.repository.create({
       email,
       name,
       password,
       profileName,
+    });
+  }
+
+  async findOne(userId: string): Promise<UserModel | null> {
+    if (!hasRequiredValues([userId])) {
+      throw new UnexpectedError('Has no userId');
+    }
+
+    return await this.repository.get({
+      id: userId,
     });
   }
 }
