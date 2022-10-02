@@ -17,6 +17,7 @@ describe('UsersService', () => {
             create: jest.fn(),
             get: jest.fn(),
             getAll: jest.fn(),
+            delete: jest.fn(),
           },
         },
         UsersService,
@@ -92,6 +93,28 @@ describe('UsersService', () => {
       await service.findAll();
       expect(userRepository.getAll).toHaveBeenCalledTimes(1);
       expect(userRepository.getAll).toHaveReturnedTimes(1);
+    });
+  });
+
+  describe('deleteUser', () => {
+    it('should return an error if no pass userId', async () => {
+      const promise = service.deleteUser(null as any);
+      await expect(promise).rejects.toThrow(UnexpectedError);
+    });
+
+    it('should return message', async () => {
+      const uuid = faker.datatype.uuid();
+      userRepository.delete = jest.fn().mockReturnValueOnce({});
+      const response = await service.deleteUser(uuid);
+      expect(response).toEqual({});
+    });
+
+    it('should call one time', async () => {
+      const uuid = faker.datatype.uuid();
+      userRepository.delete = jest.fn().mockReturnValueOnce({});
+      await service.deleteUser(uuid);
+      expect(userRepository.delete).toHaveBeenCalledTimes(1);
+      expect(userRepository.delete).toHaveReturnedTimes(1);
     });
   });
 });
