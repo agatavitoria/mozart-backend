@@ -18,6 +18,7 @@ describe('UsersController', () => {
             create: jest.fn(),
             findOne: jest.fn(),
             findAll: jest.fn(),
+            updateUser: jest.fn(),
             deleteUser: jest.fn(),
           },
         },
@@ -82,6 +83,25 @@ describe('UsersController', () => {
         .mockImplementationOnce(async () => mockValue);
       const { data } = await controller.gelAll();
       expect(data.users.length).toBe(1);
+    });
+  });
+
+  describe('updateUser', () => {
+    it('should call updateUser and return error', async () => {
+      const uuid = faker.datatype.uuid();
+      jest.spyOn(service, 'updateUser').mockRejectedValueOnce({} as any);
+      const promise = controller.updateUser(uuid, {} as any);
+      await expect(promise).rejects.toThrow(BadRequestException);
+    });
+
+    it('should call createUser and return object', async () => {
+      const mockValue = {} as any;
+      const uuid = faker.datatype.uuid();
+      jest
+        .spyOn(service, 'updateUser')
+        .mockImplementationOnce(async () => mockValue);
+      const response = await controller.updateUser(uuid, {} as any);
+      expect(response).toEqual({ data: { user: {} } });
     });
   });
 

@@ -17,6 +17,7 @@ describe('UsersService', () => {
             create: jest.fn(),
             get: jest.fn(),
             getAll: jest.fn(),
+            update: jest.fn(),
             delete: jest.fn(),
           },
         },
@@ -102,7 +103,7 @@ describe('UsersService', () => {
       await expect(promise).rejects.toThrow(UnexpectedError);
     });
 
-    it('should return message', async () => {
+    it('should return an object', async () => {
       const uuid = faker.datatype.uuid();
       userRepository.delete = jest.fn().mockReturnValueOnce({});
       const response = await service.deleteUser(uuid);
@@ -115,6 +116,32 @@ describe('UsersService', () => {
       await service.deleteUser(uuid);
       expect(userRepository.delete).toHaveBeenCalledTimes(1);
       expect(userRepository.delete).toHaveReturnedTimes(1);
+    });
+  });
+
+  describe('updateUser', () => {
+    it('should return an error if no pass userId', async () => {
+      const promise = service.updateUser({} as any);
+      await expect(promise).rejects.toThrow(UnexpectedError);
+    });
+
+    it('should return an object', async () => {
+      const params = {
+        userId: faker.datatype.uuid(),
+        email: faker.internet.email(),
+        name: faker.name.firstName(),
+      };
+      userRepository.update = jest.fn().mockReturnValueOnce({});
+      const response = await service.updateUser(params);
+      expect(response).toEqual({});
+    });
+
+    it('should call one time', async () => {
+      const params = { userId: faker.datatype.uuid() };
+      userRepository.update = jest.fn().mockReturnValueOnce({});
+      await service.updateUser(params);
+      expect(userRepository.update).toHaveBeenCalledTimes(1);
+      expect(userRepository.update).toHaveReturnedTimes(1);
     });
   });
 });
