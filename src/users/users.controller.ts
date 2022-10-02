@@ -6,6 +6,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -17,6 +18,7 @@ import { BadRequestDto, UnauthorizedRequestDto } from '../common/dtos';
 import {
   CreateUserRequestDTO,
   GetAllUsersResponseDTO,
+  UpdateUserRequestDTO,
   UserResponseDTO,
 } from './dtos';
 import { UsersService } from './users.service';
@@ -78,6 +80,25 @@ export class UsersController {
         status: 200,
         message: 'Usuário excluído com sucesso!',
       };
+    } catch (err) {
+      throw new BadRequestException();
+    }
+  }
+
+  @ApiOkResponse({ type: UserResponseDTO })
+  @ApiUnauthorizedResponse({ type: UnauthorizedRequestDto })
+  @ApiBadRequestResponse({ type: BadRequestDto })
+  @Put(':userId')
+  async updateUser(
+    @Param('userId') userId: string,
+    @Body() userData: UpdateUserRequestDTO,
+  ): Promise<UserResponseDTO> {
+    try {
+      const newUser = await this.service.updateUser({
+        ...userData,
+        userId,
+      });
+      return UserResponseDTO.factory(newUser);
     } catch (err) {
       throw new BadRequestException();
     }

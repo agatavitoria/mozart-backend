@@ -1,1 +1,2 @@
-export * from './create-user.interface';
+export * from './create-user-params.interface';
+export * from './update-user-params.interface';
