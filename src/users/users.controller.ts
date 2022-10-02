@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -61,6 +62,22 @@ export class UsersController {
     try {
       const users = await this.service.findAll();
       return GetAllUsersResponseDTO.factory(users);
+    } catch (err) {
+      throw new BadRequestException();
+    }
+  }
+
+  @ApiOkResponse({ status: 200, description: 'Usuário excluído com sucesso!' })
+  @ApiUnauthorizedResponse({ type: UnauthorizedRequestDto })
+  @ApiBadRequestResponse({ type: BadRequestDto })
+  @Delete(':userId')
+  async deleteUser(@Param('userId') userId: string) {
+    try {
+      await this.service.deleteUser(userId);
+      return {
+        status: 200,
+        message: 'Usuário excluído com sucesso!',
+      };
     } catch (err) {
       throw new BadRequestException();
     }

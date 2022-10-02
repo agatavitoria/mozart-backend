@@ -18,6 +18,7 @@ describe('UsersController', () => {
             create: jest.fn(),
             findOne: jest.fn(),
             findAll: jest.fn(),
+            deleteUser: jest.fn(),
           },
         },
       ],
@@ -81,6 +82,28 @@ describe('UsersController', () => {
         .mockImplementationOnce(async () => mockValue);
       const { data } = await controller.gelAll();
       expect(data.users.length).toBe(1);
+    });
+  });
+
+  describe('deleteUser', () => {
+    it('should call deleteUser and return error', async () => {
+      jest.spyOn(service, 'deleteUser').mockRejectedValueOnce({} as any);
+      const promise = controller.deleteUser({} as any);
+      await expect(promise).rejects.toThrow(BadRequestException);
+    });
+
+    it('should call deleteUser and return deleted message', async () => {
+      const uuid = faker.datatype.uuid();
+      const mockValue = {} as any;
+      const mockResult = {
+        status: 200,
+        message: 'Usuário excluído com sucesso!',
+      };
+      jest
+        .spyOn(service, 'findOne')
+        .mockImplementationOnce(async () => mockValue);
+      const response = await controller.deleteUser(uuid);
+      expect(response).toEqual(mockResult);
     });
   });
 });

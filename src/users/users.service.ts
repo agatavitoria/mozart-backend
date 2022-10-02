@@ -37,4 +37,12 @@ export class UsersService {
   async findAll() {
     return this.repository.getAll({});
   }
+
+  async deleteUser(userId: string) {
+    if (!hasRequiredValues([userId])) {
+      throw new UnexpectedError('Has no userId');
+    }
+
+    return await this.repository.delete(userId);
+  }
 }
