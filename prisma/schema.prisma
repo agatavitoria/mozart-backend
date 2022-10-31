@@ -9,12 +9,17 @@ datasource db {
 
 model User {
   id          String    @id @default(uuid())
-  
   email       String    @unique
   name        String
   password    String
-
   profileName String?   @map("profile_name")
   createdAt   DateTime? @default(now()) @map("created_at")
   deletedAt   DateTime? @map("deleted_at")
+}
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String
+  createdAt DateTime? @default(now()) @map("created_at")
+  deletedAt DateTime? @map("deleted_at")
 }
