@@ -17,7 +17,7 @@ describe('UserRepository', () => {
               findUnique: jest.fn(),
               findMany: jest.fn(),
               create: jest.fn(),
-              deleter: jest.fn(),
+              delete: jest.fn(),
               update: jest.fn(),
             },
           },
