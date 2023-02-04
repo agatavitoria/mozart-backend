@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UnauthorizedRequestDto {
+export class UnauthorizedRequestDTO {
   @ApiProperty({
     type: Number,
     description: 'Código do erro HTML.',

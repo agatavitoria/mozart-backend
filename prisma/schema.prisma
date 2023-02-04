@@ -15,6 +15,8 @@ model User {
   profileName String?   @map("profile_name")
   createdAt   DateTime? @default(now()) @map("created_at")
   deletedAt   DateTime? @map("deleted_at")
+
+  @@map("users")
 }
 
 model Category {
@@ -22,4 +24,6 @@ model Category {
   name      String
   createdAt DateTime? @default(now()) @map("created_at")
   deletedAt DateTime? @map("deleted_at")
+
+  @@map("categories")
 }

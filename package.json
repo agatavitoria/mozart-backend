@@ -26,10 +26,12 @@
     "prisma:generate": "prisma generate --schema=./prisma/schema.prisma",
     "prisma:db:migrate": "prisma migrate dev --name init",
     "prisma:db:push": "prisma db push",
-    "prisma:db:seed": "prisma db seed"
+    "prisma:db:seed": "prisma db seed",
+    "up:packs": "yarn ncu -u"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
+    "@nestjs/config": "^2.3.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.1.2",
