@@ -10,7 +10,7 @@ export class CreateUserResponseDTO {
       email: 'example+2@email.com',
       name: 'Tony Stark',
       password: '##123',
-      profileName: null,
+      profile_name: null,
     },
   })
   data: Record<string, string>;
